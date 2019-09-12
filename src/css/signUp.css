@@ -1,0 +1,21 @@
+.signUp{
+    position: fixed;
+    min-width: 300px;
+    min-height: 400px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.signUp .form{
+    flex-direction: row;
+    width: 100%;
+    margin-left: 20px;
+}
+.signUp .closesignUp{
+    margin-left: 85%;
+}
