@@ -12,6 +12,7 @@ body{font-size: 18px;}
 a{text-decoration: none;color:inherit;}
 ul,ol{list-style: none;}
 .button{padding: 3px 10px;font:inherit;}
+div[v-cloak]{display: none;}
 
 .page>aside {
     width: 150px;

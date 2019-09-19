@@ -3,6 +3,10 @@ let app = new Vue({
     data:{
         loginVisible: false,
         signUpVisible: false,
+        currentUser:{
+            objectId:undefined,
+            email:''
+        },
         resume:{
             name:'姓名',
             gender:'男',
@@ -25,10 +29,15 @@ let app = new Vue({
         onEdit(key,value){
             this.resume[key] = value
         },
+        hasLogin(){
+            return this.currentUser.objectId
+        },
         onLogin(e) {
-            AV.User.loginWithEmail(this.login.email, this.login.password).then(function (user) {
-                console.log(user)
-            }, function (error) {
+            AV.User.loginWithEmail(this.login.email, this.login.password).then((user) => {
+                user = user.toJSON()
+                this.currentUser.objectId = user.objectId
+                this.currentUser.email = user.email
+            }, (error) => {
                 if(error.code === 211){
                     alert('用户不存在')
                 }else if(error.code === 210){
@@ -43,7 +52,9 @@ let app = new Vue({
             user.setEmail(this.signUp.email);
             user.signUp().then(function (user) {
                 AV.User.logOut()
+                alert('注册成功，请登录')
             }, function (error) {
+                alert(error.rawMessage)
             });
         },
         onClickSave() {
@@ -55,13 +66,35 @@ let app = new Vue({
             }
         },
         saveResume(){
-            let {id} = AV.User.current()
-            var user = AV.Object.createWithoutData('User',id);
+            let {objectId} = AV.User.current().toJSON()
+            var user = AV.Object.createWithoutData('User',objectId);
             user.set('resume', this.resume);
-            user.save();
+            user.save().then(() => {
+                alert('保存成功')
+            },() => {
+                alert('保存失败')
+            })
+        },
+        getResume() {
+            var query = new AV.Query('User');
+            query.get(this.currentUser.objectId).then(function (user) {
+                let resume = user.toJSON().resume
+                this.resume = resume
+            })
+        },
+        onLogout(e){
+            AV.User.logOut()
+            window.location.reload()
+            alert('注销成功')
         }
     }
 })
+
+let currentUser = AV.User.current()
+if(currentUser){
+    app.currentUser = currentUser.toJSON()
+    app.getResume()
+}
 
 /*
 var User = AV.Object.extend('User');
