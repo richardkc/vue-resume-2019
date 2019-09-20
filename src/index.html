@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/editable-span.css">
     <link rel="stylesheet" href="./css/login.css">
     <link rel="stylesheet" href="./css/signUp.css">
+    <link rel="stylesheet" href="./css/share.css">
 
 </head>
 <body>
@@ -16,7 +17,7 @@
             <div class="upper">
                 <ul class="actions">
                     <li><button class="button" @click="onClickSave">保存</button></li>
-                    <li><button class="button">换肤</button></li>
+                    <li><button class="button" @click="shareVisible = true">分享</button></li>
                     <li><button class="button">打印</button></li>
                     <li><button class="button">换肤</button></li>
                 </ul>     
@@ -40,74 +41,44 @@
                 <section class="skills">
                     <h2>技能</h2>
                     <ul>
-                        <li>
-                            <span class="name">静态页面制作</span>
-                            <div class="description">完美实现设计稿</div>
+                        <li v-for="skill,index in resume.skills">
+                            <editable-span class="name" :value="skill.name" @edit="onEdit(`skills[${index}].name`,$event)"></editable-span>
+                            <div class="description">
+                                <editable-span :value="skill.description" @edit="onEdit(`skills[${index}].description`,$event)">{{skill.description}}</editable-span>
+                            </div>
+                            <span class="remove" v-if="index>=4" @click="removeskill">x</span>
                         </li>
                         <li>
-                            <span class="name">静态页面制作</span>
-                            <div class="description">完美实现设计稿</div>
-                        </li>
-                        <li>
-                            <span class="name">静态页面制作</span>
-                            <div class="description">完美实现设计稿</div>
-                        </li>
-                        <li>
-                            <span class="name">静态页面制作</span>
-                            <div class="description">完美实现设计稿</div>
+                            <span @click="addskill">添加</span>
                         </li>
                     </ul>
                 </section>
                 <section class="projects">
                     <h2>项目经历</h2>
                     <ol>
-                        <li>
+                        <li v-for="project,index in resume.projects">
                             <header>
                                 <div class="start">
-                                    <h3 class="name">我的简历</h3>
-                                    <span class="link">http://xxx/xxx</span>
+                                    <h3 class="name">
+                                        <editable-span :value="project.name" @edit="onEdit(`projects[${index}].name`,$event)"></editable-span>
+                                    </h3>
+                                    <span class="link">
+                                        <editable-span :value="project.link" @edit="onEdit(`projects[${index}].link`,$event)"></editable-span>
+                                    </span>
                                 </div>
                                 <div class="end">
-                                    <span class="keywords">CSS、jquery、响应式</span>
+                                    <span class="keywords">
+                                        <editable-span :value="project.keyword" @edit="onEdit(`projects[${index}].keyword`,$event)"></editable-span>
+                                    </span>
                                 </div>
                             </header>
-                            <p class="description">我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的</p>
+                            <p class="description">
+                                <editable-span :value="project.description" @edit="onEdit(`projects[${index}].description`,$event)"></editable-span>
+                            </p>
+                            <span class="remove" v-if="index>=2" @click="removeproject">x</span>
                         </li>
                         <li>
-                            <header>
-                                <div class="start">
-                                    <h3 class="name">我的简历</h3>
-                                    <span class="link">http://xxx/xxx</span>
-                                </div>
-                                <div class="end">
-                                    <span class="keywords">CSS、jquery、响应式</span>
-                                </div>
-                            </header>
-                            <p class="description">我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的</p>
-                        </li>
-                        <li>
-                            <header>
-                                <div class="start">
-                                    <h3 class="name">我的简历</h3>
-                                    <span class="link">http://xxx/xxx</span>
-                                </div>
-                                <div class="end">
-                                    <span class="keywords">CSS、jquery、响应式</span>
-                                </div>
-                            </header>
-                            <p class="description">我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的</p>
-                        </li>
-                        <li>
-                            <header>
-                                <div class="start">
-                                    <h3 class="name">我的简历</h3>
-                                    <span class="link">http://xxx/xxx</span>
-                                </div>
-                                <div class="end">
-                                    <span class="keywords">CSS、jquery、响应式</span>
-                                </div>
-                            </header>
-                            <p class="description">我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的我是怎么做这个项目的</p>
+                            <span @click="addproject">添加</span>
                         </li>
                     </ol>
                 </section>
@@ -152,6 +123,14 @@
                         <a href="#" @click="signUpVisible=false;loginVisible=true">登陆</a>
                     </div>
                 </form>
+            </div>
+            <div v-show="shareVisible" class="share" v-cloak>
+                <h3>
+                    请复制地址链接分享
+                </h3>
+                <div>
+                    <textarea>{{shareLink}}</textarea>
+                </div>
             </div>
     </div>
 

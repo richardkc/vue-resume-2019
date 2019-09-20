@@ -1,0 +1,20 @@
+.page .share{
+    position: fixed;
+    text-align: center;
+    min-width: 500px;
+    min-height: 200px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    box-shadow: 0 0 5px black;
+}
+.share div textarea{
+    width: 100%;
+    height: 4em;
+    resize: none;
+}

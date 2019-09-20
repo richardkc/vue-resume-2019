@@ -3,6 +3,7 @@ let app = new Vue({
     data:{
         loginVisible: false,
         signUpVisible: false,
+        shareVisible: false,
         currentUser:{
             objectId:undefined,
             email:''
@@ -13,7 +14,18 @@ let app = new Vue({
             birthday:'1997年08月',
             jobTitle:'前端工程师',
             email:'XXXXXX@xxx.com',
-            phoneNumber:'xxxxxxxxxxx'
+            phoneNumber:'xxxxxxxxxxx',
+            skills:[
+                {name: '请填写技能名称',description:'请填写技能描述'},
+                {name: '请填写技能名称',description:'请填写技能描述'},
+                {name: '请填写技能名称',description:'请填写技能描述'},
+                {name: '请填写技能名称',description:'请填写技能描述'}
+            ],
+            projects:[
+                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'},
+                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'}
+
+            ]
         },
         login:{
             email:'',
@@ -23,11 +35,28 @@ let app = new Vue({
             name:'',
             email:'',
             password:''
-        }
+        },
+        shareLink:''
     },
     methods:{
         onEdit(key,value){
-            this.resume[key] = value
+            let regex = /\[(\d+)\]/g
+            key = key.replace(regex,(match,number) => `.${number}`)
+            keys = key.split('.')
+            let result = this.resume
+            for(let i=0; i<keys.length; i++){
+                if(i===keys.length-1){
+                    result[keys[i]] = value
+                }else{
+                    result = result[keys[i]]
+                }
+                //result = this.resume
+                //keys = ['kills','0','name']
+                //i=0 result = result['skills'] = this.resume.skills
+                //i=1 result = result['0'] = this.resume.skills.0
+                //i=2 result = result['0'] = this.resume.skills.0.name
+                //result = this.resume['skill']['0']['name']
+            }
         },
         hasLogin(){
             return this.currentUser.objectId
@@ -77,15 +106,29 @@ let app = new Vue({
         },
         getResume() {
             var query = new AV.Query('User');
-            query.get(this.currentUser.objectId).then(function (user) {
+            query.get(this.currentUser.objectId).then((user) => {
                 let resume = user.toJSON().resume
-                this.resume = resume
+                Object.assign(this.resume,resume)
+            },(error) => {
+                //异常处理
             })
         },
         onLogout(e){
             AV.User.logOut()
             window.location.reload()
             alert('注销成功')
+        },
+        addskill(){
+            this.resume.skills.push({name:'请填写技能名称',description:'请填写技能描述'})
+        },
+        removeskill(index){
+            this.resume.skills.splice(index,1)
+        },
+        addproject(){
+            this.resume.projects.push({name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'})
+        },
+        removeproject(index){
+            this.resume.projects.splice(index,1)
         }
     }
 })
@@ -93,6 +136,7 @@ let app = new Vue({
 let currentUser = AV.User.current()
 if(currentUser){
     app.currentUser = currentUser.toJSON()
+    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
     app.getResume()
 }
 

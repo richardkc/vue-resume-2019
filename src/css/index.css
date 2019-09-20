@@ -40,3 +40,20 @@ div[v-cloak]{display: none;}
     overflow: auto;
 }
 
+.skills > ul > li{
+    position: relative;
+}
+.skills > ul > li .remove{
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+.projects > ol > li{
+    position: relative;
+}
+.projects > ol > li .remove{
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+
