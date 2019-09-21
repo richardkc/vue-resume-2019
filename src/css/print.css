@@ -1,0 +1,9 @@
+body{
+    overflow: hidden;
+}
+.page aside{
+    display: none;
+}
+*.add,*.remove{
+    display: none;
+}

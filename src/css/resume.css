@@ -36,3 +36,8 @@
 .resume .projects header .start{
     display: flex;
 }
+.resume .escPreview{
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}

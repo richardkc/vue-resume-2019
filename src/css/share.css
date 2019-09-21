@@ -18,3 +18,9 @@
     height: 4em;
     resize: none;
 }
+.share button{
+    width: 1.5em;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
