@@ -35,7 +35,7 @@ div[v-cloak]{display: none;}
     margin: 10px 0;
 }
 
-.page>main {
+.page main {
     flex-grow: 1;
     overflow: auto;
 }

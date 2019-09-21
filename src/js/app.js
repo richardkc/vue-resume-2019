@@ -5,6 +5,7 @@ let app = new Vue({
         signUpVisible: false,
         shareVisible: false,
         escKey: false,
+        skinPickerVisible: false,
         previewUser:{
             objectId: undefined
         },
@@ -50,17 +51,10 @@ let app = new Vue({
 
             ]
         },
-        login:{
-            email:'',
-            password:''
-        },
-        signUp:{
-            name:'',
-            email:'',
-            password:''
-        },
+
+
         shareLink:'',
-        mode: 'edit' //'preview'
+        mode: 'edit', //'preview'
     },
     created() {  //全局监听键盘事件
         var _this = this;
@@ -79,7 +73,7 @@ let app = new Vue({
     watch:{
         'currentUser.objectId': function(newValue,oldValue){
             if(newValue){
-                this.getResume(this.currentUser)
+                this.getResume(this.currentUser).then((resume) => {this.resume = resume})
             }
         }
     },
@@ -103,34 +97,21 @@ let app = new Vue({
                 //result = this.resume['skill']['0']['name']
             }
         },
+        onShare(){
+            if(this.hasLogin()){
+                this.shareVisible=true
+            }else{
+                alert('请先登录')
+            }
+        },
         hasLogin(){
             return this.currentUser.objectId
         },
-        onLogin(e) {
-            AV.User.loginWithEmail(this.login.email, this.login.password).then((user) => {
-                user = user.toJSON()
-                this.currentUser.objectId = user.objectId
-                this.currentUser.email = user.email
-            }, (error) => {
-                if(error.code === 211){
-                    alert('用户不存在')
-                }else if(error.code === 210){
-                    alert('用户名和密码不匹配')
-                }
-            });
+        onLogin(user){
+            this.currentUser.objectId = user.objectId
+            this.currentUser.email = user.email
         },
-        onSignUp(e) {
-            const user = new AV.User();
-            user.setUsername(this.signUp.name);
-            user.setPassword(this.signUp.password);
-            user.setEmail(this.signUp.email);
-            user.signUp().then(function (user) {
-                AV.User.logOut()
-                alert('注册成功，请登录')
-            }, function (error) {
-                alert(error.rawMessage)
-            });
-        },
+
         onClickSave() {
             let currentUser = AV.User.current();
             if(!currentUser){
@@ -205,13 +186,3 @@ if (matches) {
     })
 }
 
-
-/*
-var User = AV.Object.extend('User');
-var user = new User();
-user.set('title', '马拉松报名');
-user.set('priority', 2);
-user.save().then(function (todo) {
-    console.log('保存成功。objectId：' + todo.id);
-}, function (error) {
-});*/
