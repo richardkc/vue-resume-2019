@@ -41,7 +41,7 @@ Vue.component('sign-up',{
             </div>
             <div class="row">
                 <button type="submit" @click="$emit('close')">提交</button>
-                <a href="#" @click="$emit('goto-login')">登陆</a>
+                <a href="#" @click="$emit('gotologin')">登陆</a>
             </div>
         </form>
     </div>

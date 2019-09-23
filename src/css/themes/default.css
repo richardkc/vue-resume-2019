@@ -40,8 +40,3 @@
 .default .resume .projects header .start{
     display: flex;
 }
-.default .resume .exitPreview{
-    position: absolute;
-    top: 10px;
-    right: 40px;
-}

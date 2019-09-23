@@ -1,6 +1,7 @@
 let app = new Vue({
     el: '#app',
-    data:{
+    data(){
+        return{
         loginVisible: false,
         signUpVisible: false,
         shareVisible: false,
@@ -52,9 +53,9 @@ let app = new Vue({
             ]
         },
 
-
         shareLink:'',
         mode: 'edit', //'preview'
+    }
     },
     created() {  //全局监听键盘事件
         var _this = this;
@@ -71,6 +72,7 @@ let app = new Vue({
         }
     },
     watch:{
+
         'currentUser.objectId': function(newValue,oldValue){
             if(newValue){
                 this.getResume(this.currentUser).then((resume) => {this.resume = resume})
@@ -78,6 +80,9 @@ let app = new Vue({
         }
     },
     methods:{
+        shareVisibleClose(){
+            shareVisible=false
+        },
         onEdit(key,value){
             let regex = /\[(\d+)\]/g
             key = key.replace(regex,(match,number) => `.${number}`)
@@ -89,12 +94,12 @@ let app = new Vue({
                 }else{
                     result = result[keys[i]]
                 }
-                //result = this.resume
+                //result = app.resume
                 //keys = ['kills','0','name']
-                //i=0 result = result['skills'] = this.resume.skills
-                //i=1 result = result['0'] = this.resume.skills.0
-                //i=2 result = result['0'] = this.resume.skills.0.name
-                //result = this.resume['skill']['0']['name']
+                //i=0 result = result['skills'] = app.resume.skills
+                //i=1 result = result['0'] = app.resume.skills.0
+                //i=2 result = result['0'] = app.resume.skills.0.name
+                //result = app.resume['skill']['0']['name']
             }
         },
         onShare(){
@@ -107,7 +112,7 @@ let app = new Vue({
         hasLogin(){
             return this.currentUser.objectId
         },
-        onLogin(user){
+        onlogin(user){
             this.currentUser.objectId = user.objectId
             this.currentUser.email = user.email
         },
@@ -141,8 +146,22 @@ let app = new Vue({
         },
         onLogout(e){
             AV.User.logOut()
+            location.href = location.origin + location.pathname
             window.location.reload()
             alert('注销成功')
+        },
+        escControl(e){
+            this.escKey = !this.escKey
+        },
+        print(){
+            window.print()
+        },
+        checkDisplayResume(){
+            if(previewResume){
+                return previewResume
+            }else{
+                return resume
+            }
         },
         addskill(){
             this.resume.skills.push({name:'请填写技能名称',description:'请填写技能描述'})
@@ -155,25 +174,21 @@ let app = new Vue({
         },
         removeproject(index){
             this.resume.projects.splice(index,1)
-        },
-        escControl(e){
-            this.escKey = !this.escKey
-        },
-        print(){
-            window.print()
         }
     }
 })
 
 //获取当前用户
-let currentUser = AV.User.current()
-if (currentUser) {
-    app.currentUser = currentUser.toJSON()
-    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
-    app.getResume(app.currentUser).then((resume) => {
-        app.resume = resume
-    })
-}        
+if(AV.User.current()){
+    let currentUser = AV.User.current()
+    if (currentUser) {
+        app.currentUser = currentUser.toJSON()
+        app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
+        app.getResume(app.currentUser).then((resume) => {
+            app.resume = resume
+        })
+    }
+}
 
 let search = location.search
 let regex = /user_id=([^&]+)/
@@ -185,4 +200,3 @@ if (matches) {
         app.previewResume = resume
     })
 }
-

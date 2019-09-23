@@ -1,8 +1,8 @@
 Vue.component('share',{
     props:['link'],
     template:`
-    <div v-cloak>
-    <div class="share">
+    <div>
+    <div class="share" v-cloak>
             <button @click="$emit('close')">x</button>
             <h3>
                 请复制地址链接分享
