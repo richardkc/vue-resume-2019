@@ -7,22 +7,40 @@
 }
 *{margin: 0;padding: 0;}
 *,*::before,*::after{box-sizing: border-box;}
+ul,li{list-style: none;}
+button{
+    background: white;
+    opacity: 0.9;
+    margin:0;
+    padding: 0;
+    border: 1px solid transparent;    /*自定义边框*/
+    box-shadow: none;
+	outline: none;      /*消除默认点击蓝色边框效果*/
+}
 
 body{font-size: 18px; overflow: auto;}
 a{text-decoration: none;color:inherit;}
 ul,ol{list-style: none;}
-.button{padding: 3px 10px;font:inherit;}
+.button{padding: 3px 10px;font:inherit;border-radius: 4px;}
 div[v-cloak]{display: none;}
 
 .page>aside {
     width: 150px;
-    border-right: 1px solid #ddd;
-    box-shadow: 0 0px 3px 0 rgba(0,0,0,0.2);
+    background: linear-gradient(90deg,rgba(255,255,255,0.3),rgba(255,255,255,0.3)),url("../img/default.jpg");
+    box-shadow: 5px 0px 10px 0px rgba(255,255,255,0.15);
+    border-right: 3px solid #ddd;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    z-index: 10;
+}
+.page>aside:hover{
+    box-shadow: 5px 0px 10px 0px rgba(255,255,255,0.25);
+    background: linear-gradient(90deg,rgba(255,255,255,0.4),rgba(255,255,255,0.4)),url("../img/default.jpg");
 }
 .page>aside .upper{
     display: flex;
@@ -35,7 +53,7 @@ div[v-cloak]{display: none;}
     margin: 10px 0;
 }
 
-.page main {
+.page main{
     flex-grow: 1;
     overflow: auto;
 }
@@ -62,3 +80,5 @@ div[v-cloak]{display: none;}
     top: 10px;
     right: 40px;
 }
+
+

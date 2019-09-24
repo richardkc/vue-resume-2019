@@ -8,3 +8,9 @@
 *.add,*.remove{
     display: none;
 }
+.page .default{
+    background: white;
+}
+.page .twig{
+    z-index: 0;
+}

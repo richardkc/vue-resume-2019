@@ -1,42 +1,281 @@
 
 .default{
-    background: white;
-    padding: 0 40px;
-}
-.default .resume{
-    max-width: 800px;
+    background-image: linear-gradient(0,rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("../../img/default.jpg");
+    /* background: linear-gradient(90deg, #aaa, white); */
+    font-size: 16px;
     margin: 0 auto;
 }
-.default .resume > section{margin: 30px 0;}
-.default .resume > section > h1,.default .resume > section > h2{
+.bigFont{
+    font-size: 21px;
+}
+.boldFont{
+    font-weight: bold;
+}
+.clearfix{
+    display: block;
+    content: " ";
+    clear: both;
+}
+hr {
+    margin: 5px 0;
+    border: none;
+    border-top: 1px solid black;
+    overflow: visible;
     text-align: center;
-    margin: 20px;
+    height: 5px;
 }
-.default .resume .profileAll p{text-align: center;margin: 10px 0;}
 
-.default .resume .skills > ul{
+
+
+.default .twig{
+    position: absolute;
+    height: 100vh;
+    width: 150px;
+    background: linear-gradient(90deg,#bbb,#ddd);
+    top: 0;
+    z-index: -1;
+}
+
+
+
+.resume{
+    max-width: 1000px;
+    margin: 20px auto 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-between;
-}
-.default .resume .skills > ul > li{
-    width: 49%;
-    border: 1px solid grey;
-    margin-top: 10px;
-    padding: 10px;
+    align-content: center;
+    justify-content: left;
+    font-family: '黑体';
 }
 
 
-.default .resume .projects > ol > li{margin: 30px 0;border: 1px solid #ddd;padding: 10px;}
-.default .resume .projects header{
+
+
+
+.resume .keyMessage{
+    border-right: 5px;
+    border-right-color: white;
+    border-radius: 50px 0 0 0;
+    margin: 0 10px;
+    padding: 20px 20px;
+    max-width: 300px;
+    max-height: 1500px;
+    position: relative;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: space-between;
+    background: #ddd;
+    box-shadow: -5px 5px 5px 0px rgba(0,0,0,0.2);
 }
-.default .resume .projects header .name{
-    margin-right: 1em;
-    margin-bottom: 10px;
+.resume .keyMessage hr{
+    width: 180px;
 }
-.default .resume .projects header .start{
+.resume .keyMessage .left,
+.resume .keyMessage .right{
+    float: left;
+    padding: 5px 0;
+}
+
+
+.resume .keyMessage .picture{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    top: 11%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    overflow: hidden;
+    position: absolute;
+}
+.resume .keyMessage .picture img{
+    width: 120px;
+    height: 168px;
+    text-align: center;
+    transform: translateY(-16.7%);
+}
+.resume .keyMessage .name{
+    text-align: center;
+    margin-top: 170px;
+}
+.resume .keyMessage .name span{
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.resume .keyMessage .info{
+    margin: 20px 0 20px 0;
+    height: 250px;
+    position: relative;
+}
+.resume .keyMessage .info .left{
+    width: 40%;
+}
+.resume .keyMessage .info .right{
+    width: 60%;
+}
+.resume .keyMessage .add,
+.resume .keyMessage .remove{
+    display: none;
+}
+.resume .keyMessage .info:hover .add,
+.resume .keyMessage .skills:hover .add,
+.resume .keyMessage .fits:hover .add{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.resume .keyMessage .info:hover .remove,
+.resume .keyMessage .skills:hover .remove,
+.resume .keyMessage .fits:hover .remove{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 2em;
+    background: red;
+}
+
+
+.resume .keyMessage .skills{
+    height: 200px;
+    position: relative;
+}
+.resume .keyMessage .skills .left{
+    float: left;
+    width: 50%;
+}
+/* editable-span*/
+.resume .keyMessage .skills .editableSpan{
+    width: inherit;
+}
+.resume .keyMessage .skills .editableSpan input{
+    width: inherit;
+}
+.resume .keyMessage .fits{
+    height: 300px;
+    position: relative;
+}
+.resume .keyMessage .fits .left{
+    width: 8%;
+}
+.resume .keyMessage .fits .right{
+    width: 92%;
+}
+
+
+
+
+
+
+
+
+
+.resume .allExperience{
+    padding: 0 20px;
+    max-height: 1500px;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: linear-gradient(90deg, #ddd, white)
+}
+.resume .allExperience .case .left{
+    float: left;
+}
+.resume .allExperience .case .right{
+    float: right;
+}
+.resume .allExperience .add,
+.resume .allExperience .remove{
+    display: none;
+}
+.resume .allExperience .education:hover .add,
+.resume .allExperience .education:hover .remove{
+    display: block;
+}
+.resume .allExperience hr{
+    width: 480px;
+    margin-top: 30px;
+}
+.resume .allExperience .education{
+    margin: 40px 0 25px 0;
+    height: 160px;
+    position: relative;
+}
+.resume .allExperience .education .both{
+    margin-bottom: 26px;
+}
+.resume .allExperience .education .content{
+    margin-top: 5px;
+}
+.resume .allExperience .education:hover .add{
+    position: absolute;
+    top: 0;
+    right: 8em;
+}
+.resume .allExperience .education:hover .remove{
+    position: absolute;
+    top: 0;
+    right: 9em;
+}
+
+
+.resume .allExperience .items{
+    margin: 25px 0;
+    height: 480px;
+    position: relative;
+}
+.resume .allExperience .items .both{
+    float: left;
+    width: 100%;
+}
+.resume .allExperience .items .content{
+    float: left;
+    margin: 5px 0 8px 0;
+}
+.resume .allExperience .items:hover .add{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 8em;
+}
+.resume .allExperience .items:hover .remove{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 9em;
+}
+.resume .allExperience .items .clearfix .content{
+    margin-top: 5px;
+}
+
+
+.resume .allExperience .experience{
+    position: relative;
+}
+.resume .allExperience .experience .both{
+    float: left;
+    width: 100%;
+}
+.resume .allExperience .experience .content{
+    float: left;
+    margin: 5px 0 8px 0;
+}
+.resume .allExperience .experience:hover .add{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 8em;
+}
+.resume .allExperience .experience:hover .remove{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 9em;
+}
+.resume .allExperience .experience .clearfix .content{
+    margin-top: 5px;
 }

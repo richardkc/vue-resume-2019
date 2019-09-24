@@ -2,6 +2,8 @@ let app = new Vue({
     el: '#app',
     data(){
         return{
+        instantEditingVisible: false,
+        editing: false,
         loginVisible: false,
         signUpVisible: false,
         shareVisible: false,
@@ -16,48 +18,69 @@ let app = new Vue({
         },
         previewResume:{
             name:'姓名',
-            gender:'男',
-            birthday:'1997年08月',
             jobTitle:'前端工程师',
-            email:'XXXXXX@xxx.com',
-            phoneNumber:'xxxxxxxxxxx',
-            skills:[
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'}
+            infos:[
+                {name:'信息名',description:'信息'},
+                {name:'信息名',description:'信息'},
+                {name:'信息名',description:'信息'}
             ],
-            projects:[
-                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'},
-                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'}
-
+            skills:[
+                {name:'技能'},
+                {name:'技能'},
+                {name:'技能'}
+            ],
+            fits:[
+                {name:'填写优势项'},
+                {name:'填写优势项'},
+                {name:'填写优势项'}
+            ],
+            educationTime: '年限',
+            educationCollege: '院校 专业',
+            educationContent:[
+                {name: '添加说明'}
+            ],
+            items:[
+                {name:'项目名称',link:'项目链接',content:'项目说明'}
+            ],
+            experiences:[
+                {name:'社团名称',job:'担任职位',content:'社团经历'}
             ]
         },
         resume:{
             name:'姓名',
-            gender:'男',
-            birthday:'1997年08月',
             jobTitle:'前端工程师',
-            email:'XXXXXX@xxx.com',
-            phoneNumber:'xxxxxxxxxxx',
-            skills:[
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'},
-                {name: '请填写技能名称',description:'请填写技能描述'}
+            infos:[
+                {name:'信息名',description:'信息'},
+                {name:'信息名',description:'信息'},
+                {name:'信息名',description:'信息'}
             ],
-            projects:[
-                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'},
-                {name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'}
-
+            skills:[
+                {name:'技能'},
+                {name:'技能'},
+                {name:'技能'}
+            ],
+            fits:[
+                {name:'填写优势项'},
+                {name:'填写优势项'},
+                {name:'填写优势项'}
+            ],
+            educationTime: '年限',
+            educationCollege: '院校 专业',
+            educationContent:[
+                {name: '添加说明'}
+            ],
+            items:[
+                {name:'项目名称',link:'项目链接',content:'项目说明'}
+            ],
+            experiences:[
+                {name:'社团名称',job:'担任职位',content:'社团经历'}
             ]
         },
-
         shareLink:'',
         mode: 'edit', //'preview'
     }
     },
-    created() {  //全局监听键盘事件
+    created() {  //全局监听键盘事
         var _this = this;
         document.onkeydown = function (e) {
             let key = window.event.keyCode;
@@ -139,7 +162,11 @@ let app = new Vue({
             var query = new AV.Query('User');
             return query.get(user.objectId).then((user) => {
                 let resume = user.toJSON().resume
-                return resume
+                if(resume){
+                    return resume
+                }else{
+                    return this.resume
+                }
             },(error) => {
                 console.log(error)
             })
@@ -163,31 +190,21 @@ let app = new Vue({
                 return resume
             }
         },
-        addskill(){
-            this.resume.skills.push({name:'请填写技能名称',description:'请填写技能描述'})
-        },
-        removeskill(index){
-            this.resume.skills.splice(index,1)
-        },
-        addproject(){
-            this.resume.projects.push({name:'请填写项目名称',link:'请填写链接',keyword:'请填写关键词',description:'请填写详细描述'})
-        },
-        removeproject(index){
-            this.resume.projects.splice(index,1)
+        instantEditing(){
+            console.log(this.instantEditingVisible)
+            this.instantEditingVisible = !this.instantEditingVisible
         }
     }
 })
 
 //获取当前用户
-if(AV.User.current()){
-    let currentUser = AV.User.current()
-    if (currentUser) {
-        app.currentUser = currentUser.toJSON()
-        app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
-        app.getResume(app.currentUser).then((resume) => {
-            app.resume = resume
-        })
-    }
+let currentUser = AV.User.current()
+if (currentUser) {
+    app.currentUser = currentUser.toJSON()
+    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
+    app.getResume(app.currentUser).then((resume) => {
+        app.resume = resume
+    })
 }
 
 let search = location.search
@@ -200,3 +217,7 @@ if (matches) {
         app.previewResume = resume
     })
 }
+// document.querySelector('.resume').addEventListener('click',() => {
+//     app.editing = flase
+//     console.log(app.editing)
+// })

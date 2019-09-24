@@ -21,10 +21,10 @@
     <div class="page" id="app">
         <abside v-show="mode !== 'preview'" @click-save="onClickSave" @on-share="onShare" @print="print" 
         @preview="mode='preview'" @skin-picker="skinPickerVisible=!skinPickerVisible" @onlogin="loginVisible=true" 
-        @onlogout="onLogout" :haslogin="hasLogin()"></abside>
+        @onlogout="onLogout" :haslogin="hasLogin()" @instant-editing="instantEditing"></abside>
         <main class="default">
-            <resume :displayresume="displayResume" :mode="mode" :esckey="escKey"
-                @exit="mode='edit';escKey=false;location.href=location.origin+location.pathname"></resume>
+            <resume :displayresume="displayResume" :mode="mode" :esckey="escKey" :editing="editing"
+                @exit="mode='edit';escKey=false;location.href=location.origin+location.pathname" :instant="instantEditingVisible"></resume>
         </main>
         <div class="exitPreview && mode==='preview'" v-if="escKey"
             @click="mode='edit';escKey=false;location.href=location.origin+location.pathname" v-cloak>
@@ -38,11 +38,10 @@
         <skin-picker v-show="skinPickerVisible" @close="skinPickerVisible=false"></skin-picker>
     </div>
 
-    <script src="../vendor/av-min.js"></script>
+    <script src="../vendors/av-min.js"></script>
     <script src="./js/av.js"></script>
     <script src="../vendors/vue.min.js"></script>
-    <script src="../vendors/vue-router.min.js"></script>
-    
+    <!-- <script src="../vendors/vue-router.min.js"></script> -->
     <script src="./js/editable-span.js"></script>
     <script src="./js/abside.js"></script>  
     <script src="./js/popup/login.js"></script>
@@ -50,7 +49,8 @@
     <script src="./js/popup/share.js"></script>
     <script src="./js/popup/skinPicker.js"></script>
     <script src="./js/resume.js"></script>  
-    <script src="./js/router.js"></script>
+
+    <!-- <script src="./js/router.js"></script> -->
     <script src="./js/app.js"></script>
   
 </body>

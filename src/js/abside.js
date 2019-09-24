@@ -9,6 +9,7 @@ Vue.component('abside',{
             <li><button class="button" @click="$emit('preview')">预览</button></li>
             <li><button class="button" @click="$emit('print')">打印</button></li>
             <li><button class="button" @click="$emit('skin-picker')">换肤</button></li>
+            <li><button class="button" @click="$emit('instant-editing')">即时</button></li>
         </ul>
     </div>
     <div class="down">

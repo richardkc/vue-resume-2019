@@ -1,10 +1,10 @@
 Vue.component('editable-span',{
-    props:['value','disabled'],
+    props:['value','disabled','instanteditingvisible'],
     template:`
-    <span class="editableSpan">
-        <span v-show="!editing">{{value}}</span>
+    <span class="editableSpan" :key="instanteditingvisible">
+        <span contenteditable="!instanteditingvisible" v-show="!editing">{{value}}</span>
         <input v-show="editing" type="text" :value="value" @input="triggerEdit">
-        <button v-if="!disabled" @click="editing = !editing">edit</button>
+        <button v-if="!disabled && !instanteditingvisible" @click="editing = !editing">edit</button>
     </span>
     `,
     data(){
