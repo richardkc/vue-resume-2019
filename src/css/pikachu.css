@@ -14,12 +14,12 @@
 .st12{fill:#94190A;}
 .st13{fill:#7C150D;}
 .st14{fill:#791913;}
-.st15{fill:#ddd;transition: ease-in 2s;}
-.wrapper:hover .st15{fill:transparent;}
+.st15{fill:transparent;transition: ease-in 2s;}
+.wrapper:hover .st15{fill:whitesmoke;}
 .wrapper{
   width: 110px;
   position: fixed;
-  left: 87%;
+  left: 89%;
   top: 16%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);

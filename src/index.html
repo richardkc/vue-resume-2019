@@ -26,7 +26,7 @@
         @onlogout="onLogout" :haslogin="hasLogin()" @instant-editing="instantEditing" :instanttitle="instantTitle"></abside>
         <main class="default">
             <pikachu></pikachu>
-            <bubble v-show="currentUser.username" :username="currentUser.username"></bubble>
+            <bubble v-show="currentUserInfo.username" :username="currentUserInfo.username"></bubble>
             <resume :displayresume="displayResume" :mode="mode" :esckey="escKey" :editing="editing" 
                 @exit="mode='edit';escKey=false;location.href=location.origin+location.pathname" :instant="instantEditingVisible" 
                 @img-click="imgClick" @choose-file="chooseFile"></resume>

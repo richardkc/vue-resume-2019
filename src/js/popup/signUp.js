@@ -37,7 +37,7 @@ Vue.component('sign-up',{
             </div>
             <div class="row">
                 <label>密码</label>
-                <input type="text" v-model="signUp.password">
+                <input type="password" v-model="signUp.password">
             </div>
             <div class="row">
                 <button type="submit" @click="$emit('close')">提交</button>

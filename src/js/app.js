@@ -15,9 +15,10 @@ let app = new Vue({
         previewUser:{
             objectId: undefined
         },
-        currentUser:{
+        currentUserInfo:{
             objectId:undefined,
             email:'',
+            username:''
         },
         previewResume:{
             url: '',
@@ -103,9 +104,9 @@ let app = new Vue({
         }
     },
     watch:{
-        'currentUser.objectId': function(newValue,oldValue){
+        'currentUserInfo.objectId': function(newValue,oldValue){
             if(newValue){
-                this.getResume(this.currentUser).then((resume) => {this.resume = resume})
+                this.getResume(this.currentUserInfo).then((resume) => {this.resume = resume})
             }
         }
     },
@@ -124,7 +125,8 @@ let app = new Vue({
             }else{
                 let imgurl = window.URL.createObjectURL(file)
                 image.setAttribute('src',imgurl)
-                this.imUrl = imgurl
+                this.imageUrl = imgurl
+                this.resume.url = imgurl
             }
 
         },
@@ -155,31 +157,36 @@ let app = new Vue({
             }
         },
         hasLogin(){
-            return this.currentUser.objectId
+            return this.currentUserInfo.objectId
         },
         onlogin(user){
             console.log(user)
-            this.currentUser.objectId = user.objectId
-            this.currentUser.email = user.email
-
-            var query = new AV.Query('_User');
+            this.currentUserInfo.objectId = user.objectId
+            this.currentUserInfo.email = user.email
+            console.log(1)
+            var query = new AV.Query('User');
             query.equalTo('title', '图片');
             query.exists('image');
             query.include('image');
-            query.find().then((imgs) => {
-                imgs.forEach((img) => {
-                    var image = img.get('image');
-                    image.forEach((image) => {
-                        this.resume.url = this.imageUrl = image.get('url')
-                    });
+            console.log(2)
+            query.find().then(function (todos) {
+                todos.forEach(function (todo) {
+                  // 获取每个 todo 的 attachments 数组
+                  let image = todo.get('image');
+                  let n = image.length
+                  console.log(image[n-1])
+                  
+                    app.imageUrl = image[n-1].attributes.url
+                    app.resume.url = app.imageUrl
+                    console.log(app.resume.url)
                 });
-            }).then(()=> {
+              }).then(()=> {
                 let imgdom = document.querySelector('.resume .keyMessage .picture img')
-                if (this.imageUrl) {
-                    this.resume.url = imgdom.src = this.imageUrl
+                if (app.imageUrl) {
+                    imgdom.src = app.imageUrl
                     let {objectId} = AV.User.current().toJSON()
                     var user = AV.Object.createWithoutData('User',objectId);
-                    user.set('resume', this.resume);
+                    user.set('resume', app.resume);
                     user.save()
                     window.location.reload()
                 } else {
@@ -200,6 +207,11 @@ let app = new Vue({
         },
         saveResume(){
 
+            let filedom = document.querySelector('div.resume .keyMessage .inputImg')
+            if (filedom.files.length) {
+                var localFile = filedom.files[0];
+                var file = new AV.File('resume.jpg', localFile);
+            }
 
             let {objectId} = AV.User.current().toJSON()
             var user = AV.Object.createWithoutData('User',objectId);
@@ -212,11 +224,6 @@ let app = new Vue({
                 alert('保存失败')
             })
 
-            let filedom = document.querySelector('div.resume .keyMessage .inputImg')
-            if (filedom.files.length) {
-                var localFile = filedom.files[0];
-                var file = new AV.File('resume.jpg', localFile);
-            }
             file.save().then(function (file) {
                 console.log('文件保存完成');
             }, function (error) {
@@ -273,9 +280,9 @@ let app = new Vue({
 //获取当前用户
 let currentUser = AV.User.current()
 if (currentUser) {
-    app.currentUser = currentUser.toJSON()
-    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
-    app.getResume(app.currentUser).then((resume) => {
+    app.currentUserInfo = currentUser.toJSON()
+    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUserInfo.objectId
+    app.getResume(app.currentUserInfo).then((resume) => {
         app.resume = resume
     })
 }
@@ -304,10 +311,5 @@ setTimeout(() => {
 
 
 
-
-// document.querySelector('.resume').addEventListener('click',() => {
-//     app.editing = flase
-//     console.log(app.editing)
-// })
 
 
