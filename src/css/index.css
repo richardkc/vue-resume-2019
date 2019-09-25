@@ -52,10 +52,21 @@ div[v-cloak]{display: none;}
 .page>aside .down{
     margin: 10px 0;
 }
+.page>aside button:active{
+    opacity: 1;
+}
 
 .page main{
     flex-grow: 1;
     overflow: auto;
+}
+.page main .resumeBackground{
+    background: rgba(255,255,255,0.8);
+    position: fixed;
+    height: 100vh;
+    width: 500px;
+    margin: 0 auto;
+    z-index: 11;
 }
 
 .skills > ul > li{

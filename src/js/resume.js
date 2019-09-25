@@ -63,7 +63,8 @@ Vue.component('resume',{
     <div class="resume">
         <div class="keyMessage">
             <div class="picture">
-                <img src="./resume.jpg" alt="#">
+                <img class="image" alt="#"  @click="$emit('img-click')">
+                <input class="inputImg" type="file" accept=".jpg, .jpeg, .png" @change="$emit('choose-file')">
             </div>
             <div class="name">
             <editable-span :instanteditingvisible="instant" class="bigFont boldFont" :disabled="mode==='preview'" :value="displayresume.name" @edit="onEdit('name',$event)"></editable-span>

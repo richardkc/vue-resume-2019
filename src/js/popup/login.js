@@ -19,6 +19,8 @@ Vue.component('login',{
                     alert('用户名和密码不匹配')
                 }
             });
+
+
         }
     },
     template:`

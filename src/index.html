@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="./css/signUp.css">
     <link rel="stylesheet" href="./css/share.css">
     <link rel="stylesheet" href="./css/skinPicker.css">
+    <link rel="stylesheet" href="./css/pikachu.css">
+    <link rel="stylesheet" href="./css/bubble.css">
     <link rel="stylesheet" href="./css/print.css" media="print">
 
 </head>
@@ -21,10 +23,18 @@
     <div class="page" id="app">
         <abside v-show="mode !== 'preview'" @click-save="onClickSave" @on-share="onShare" @print="print" 
         @preview="mode='preview'" @skin-picker="skinPickerVisible=!skinPickerVisible" @onlogin="loginVisible=true" 
-        @onlogout="onLogout" :haslogin="hasLogin()" @instant-editing="instantEditing"></abside>
+        @onlogout="onLogout" :haslogin="hasLogin()" @instant-editing="instantEditing" :instanttitle="instantTitle"></abside>
         <main class="default">
-            <resume :displayresume="displayResume" :mode="mode" :esckey="escKey" :editing="editing"
-                @exit="mode='edit';escKey=false;location.href=location.origin+location.pathname" :instant="instantEditingVisible"></resume>
+            <pikachu></pikachu>
+            <div class="bubble">
+                <div class="welcome">
+                    欢迎你
+                    <div class="triangle"></div>
+                </div>
+            </div>
+            <resume :displayresume="displayResume" :mode="mode" :esckey="escKey" :editing="editing" 
+                @exit="mode='edit';escKey=false;location.href=location.origin+location.pathname" :instant="instantEditingVisible" 
+                @img-click="imgClick" @choose-file="chooseFile"></resume>
         </main>
         <div class="exitPreview && mode==='preview'" v-if="escKey"
             @click="mode='edit';escKey=false;location.href=location.origin+location.pathname" v-cloak>
@@ -48,6 +58,7 @@
     <script src="./js/popup/signUp.js"></script>
     <script src="./js/popup/share.js"></script>
     <script src="./js/popup/skinPicker.js"></script>
+    <script src="./js/pikachu.js"></script>
     <script src="./js/resume.js"></script>  
 
     <!-- <script src="./js/router.js"></script> -->

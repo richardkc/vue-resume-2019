@@ -1,0 +1,23 @@
+.page .bubble{
+    position: fixed;
+    top: 3%;
+    right: 4%;
+}
+.page .bubble .welcome{
+    background: whitesmoke;
+    color: black;
+    display: inline-block;
+    padding: 4px 16px;
+    line-height: 22px;
+    position: relative;
+    margin-bottom: 10px;
+}
+.page .bubble .welcome .triangle{
+    border: 10px solid transparent;
+    width: 0px;
+    border-top-width: 0px;
+    border-left-color: whitesmoke;
+    position: absolute;
+    left: 4px;
+    top: 100%;
+}

@@ -9,6 +9,9 @@ let app = new Vue({
         shareVisible: false,
         escKey: false,
         skinPickerVisible: false,
+        instantTitle:'再次点击按钮可退出即时模式',
+        imgUrl:'',
+        imageUrl:'',
         previewUser:{
             objectId: undefined
         },
@@ -17,62 +20,64 @@ let app = new Vue({
             email:''
         },
         previewResume:{
-            name:'姓名',
-            jobTitle:'前端工程师',
-            infos:[
+            url: '',
+            name: '姓名',
+            jobTitle: '前端工程师',
+            infos: [
                 {name:'信息名',description:'信息'},
                 {name:'信息名',description:'信息'},
                 {name:'信息名',description:'信息'}
             ],
-            skills:[
+            skills: [
                 {name:'技能'},
                 {name:'技能'},
                 {name:'技能'}
             ],
-            fits:[
+            fits: [
                 {name:'填写优势项'},
                 {name:'填写优势项'},
                 {name:'填写优势项'}
             ],
             educationTime: '年限',
             educationCollege: '院校 专业',
-            educationContent:[
+            educationContent: [
                 {name: '添加说明'}
             ],
-            items:[
+            items: [
                 {name:'项目名称',link:'项目链接',content:'项目说明'}
             ],
-            experiences:[
+            experiences: [
                 {name:'社团名称',job:'担任职位',content:'社团经历'}
             ]
         },
         resume:{
-            name:'姓名',
-            jobTitle:'前端工程师',
-            infos:[
+            url: '',
+            name: '姓名',
+            jobTitle: '前端工程师',
+            infos: [
                 {name:'信息名',description:'信息'},
                 {name:'信息名',description:'信息'},
                 {name:'信息名',description:'信息'}
             ],
-            skills:[
+            skills: [
                 {name:'技能'},
                 {name:'技能'},
                 {name:'技能'}
             ],
-            fits:[
+            fits: [
                 {name:'填写优势项'},
                 {name:'填写优势项'},
                 {name:'填写优势项'}
             ],
             educationTime: '年限',
             educationCollege: '院校 专业',
-            educationContent:[
+            educationContent: [
                 {name: '添加说明'}
             ],
-            items:[
+            items: [
                 {name:'项目名称',link:'项目链接',content:'项目说明'}
             ],
-            experiences:[
+            experiences: [
                 {name:'社团名称',job:'担任职位',content:'社团经历'}
             ]
         },
@@ -89,13 +94,15 @@ let app = new Vue({
             }
         }
     },
+    mounted(){
+
+    },
     computed:{
         displayResume(){
             return this.mode === 'preview' ? this.previewResume : this.resume
         }
     },
     watch:{
-
         'currentUser.objectId': function(newValue,oldValue){
             if(newValue){
                 this.getResume(this.currentUser).then((resume) => {this.resume = resume})
@@ -103,6 +110,24 @@ let app = new Vue({
         }
     },
     methods:{
+        imgClick(){
+            let file = document.querySelector('div.resume .keyMessage .inputImg')
+            file.click()
+        },
+        chooseFile(){
+            let filedom = document.querySelector('div.resume .keyMessage .inputImg')
+            let image = document.querySelector('div.resume .keyMessage .image')
+            let file = filedom.files[0]
+            let fileExt = filedom.files[0].name.replace(/.+\./, "").toLowerCase()
+            if(file.size>1024*1024*5){
+                alert('图片大小不能超过5M')
+            }else{
+                let imgurl = window.URL.createObjectURL(file)
+                image.setAttribute('src',imgurl)
+                this.imUrl = imgurl
+            }
+
+        },
         shareVisibleClose(){
             shareVisible=false
         },
@@ -138,6 +163,32 @@ let app = new Vue({
         onlogin(user){
             this.currentUser.objectId = user.objectId
             this.currentUser.email = user.email
+
+            var query = new AV.Query('_User');
+            query.equalTo('title', '图片');
+            query.exists('image');
+            query.include('image');
+            query.find().then((imgs) => {
+                imgs.forEach((img) => {
+                    var image = img.get('image');
+                    image.forEach((image) => {
+                        this.resume.url = this.imageUrl = image.get('url')
+                    });
+                });
+            }).then(()=> {
+                let imgdom = document.querySelector('.resume .keyMessage .picture img')
+                if (this.imageUrl) {
+                    this.resume.url = imgdom.src = this.imageUrl
+                    let {objectId} = AV.User.current().toJSON()
+                    var user = AV.Object.createWithoutData('User',objectId);
+                    user.set('resume', this.resume);
+                    user.save()
+                } else {
+                    imgdom.src = './img/resume.gif'
+                }
+            })
+
+
         },
 
         onClickSave() {
@@ -149,14 +200,35 @@ let app = new Vue({
             }
         },
         saveResume(){
+
+
             let {objectId} = AV.User.current().toJSON()
             var user = AV.Object.createWithoutData('User',objectId);
             user.set('resume', this.resume);
+            user.set('title', '图片');
+            user.add('image', file);
             user.save().then(() => {
                 alert('保存成功')
             },() => {
                 alert('保存失败')
             })
+
+            let filedom = document.querySelector('div.resume .keyMessage .inputImg')
+            if (filedom.files.length) {
+                var localFile = filedom.files[0];
+                var file = new AV.File('resume.jpg', localFile);
+            }
+            file.save().then(function (file) {
+                console.log('文件保存完成');
+            }, function (error) {
+                console.log('图片保存失败')
+            })
+            // let _User = AV.Object.extend('Todo');
+            // let User = new _User();
+            // User.set('image', '图片');
+            // attachments 是一个 Array 属性
+            // User.add('attachments', file);
+            // User.save();
         },
         getResume(user) {
             var query = new AV.Query('User');
@@ -191,7 +263,9 @@ let app = new Vue({
             }
         },
         instantEditing(){
-            console.log(this.instantEditingVisible)
+            if(this.instantEditingVisible === false){
+                alert('使用即时模式数据将不会被永久保存！')
+            }
             this.instantEditingVisible = !this.instantEditingVisible
         }
     }
@@ -217,7 +291,24 @@ if (matches) {
         app.previewResume = resume
     })
 }
+
+setTimeout(() => {
+    let imgdom = document.querySelector('.resume .keyMessage .picture img')
+    if (app.resume.url) {
+        imgdom.src = app.resume.url
+    } else {
+        imgdom.src = './img/resume.gif'
+    }
+},100)
+
+
+
+
+
+
 // document.querySelector('.resume').addEventListener('click',() => {
 //     app.editing = flase
 //     console.log(app.editing)
 // })
+
+
