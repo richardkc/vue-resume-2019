@@ -24,11 +24,11 @@ Vue.component('sign-up',{
     },
     template:`
     <div class="signUp" v-cloak>
-        <button class="closesignUp" @click="$emit('close')">关闭</button>
+        <button class="closeSignUp" @click="$emit('close')">关闭</button>
         <form class="form" @submit.prevent="onSignUp">
             <h4>注册</h4>
             <div class="row">
-                <label>用户名</label>
+                <label>昵称</label>
                 <input type="text" v-model="signUp.name">
             </div>
             <div class="row">
@@ -41,7 +41,7 @@ Vue.component('sign-up',{
             </div>
             <div class="row">
                 <button type="submit" @click="$emit('close')">提交</button>
-                <a href="#" @click="$emit('gotologin')">登陆</a>
+                <button><a href="#" @click="$emit('gotologin')">登陆</a></button>
             </div>
         </form>
     </div>

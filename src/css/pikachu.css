@@ -1,4 +1,4 @@
-body {background: #E2E2E2;}
+
 .st0{fill:#ECD714;}
 .st1{fill:#E9B115;}
 .st2{fill:#FE0808; animation: st2 2.5s ease-out infinite; -webkit-animation: st2 2.5s ease-out infinite;}
@@ -14,12 +14,13 @@ body {background: #E2E2E2;}
 .st12{fill:#94190A;}
 .st13{fill:#7C150D;}
 .st14{fill:#791913;}
-.st15{fill:whitesmoke;}
+.st15{fill:#ddd;transition: ease-in 2s;}
+.wrapper:hover .st15{fill:transparent;}
 .wrapper{
-  width: 120px;
+  width: 110px;
   position: fixed;
   left: 87%;
-  top: 15%;
+  top: 16%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }

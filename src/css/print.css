@@ -10,7 +10,14 @@
 }
 .page .default{
     background: white;
+    padding-bottom: 0;
 }
 .page .twig{
     z-index: 0;
+}
+.page .wrapper{
+    display: none;
+}
+.page .bubble{
+    display: none;
 }

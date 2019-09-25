@@ -1,7 +1,7 @@
 .signUp{
     position: fixed;
     min-width: 300px;
-    min-height: 400px;
+    min-height: 250px;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
@@ -10,12 +10,28 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    box-shadow: 0 0 5px black;
 }
 .signUp .form{
     flex-direction: row;
     width: 100%;
-    margin-left: 20px;
+    position: absolute;
+    text-align: center;
 }
-.signUp .closesignUp{
+.signUp .form .row{
+    margin: 10px 0;
+}
+.signUp .form .row button{
+    font-size: 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    padding: 3px 5px;
+    margin: 10px 10px 0 10px;
+}
+.signUp .closeSignUp{
+    width: 3em;
     margin-left: 85%;
+    position: absolute;
+    top: 20px;
+    right: 10px;
 }

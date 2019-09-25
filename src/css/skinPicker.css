@@ -13,6 +13,7 @@
     box-shadow: 0 0 5px black;
 }
 .skinPicker .button{
+    background: #ddd;
     width: 4em;
     margin: 10px;
 }

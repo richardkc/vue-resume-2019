@@ -1,16 +1,19 @@
 .page .bubble{
     position: fixed;
+    max-width: 100px;
     top: 3%;
-    right: 4%;
+    left: 90%;
+    font-size: 12px;
 }
 .page .bubble .welcome{
     background: whitesmoke;
     color: black;
     display: inline-block;
     padding: 4px 16px;
-    line-height: 22px;
+    line-height: 18px;
     position: relative;
     margin-bottom: 10px;
+    border-radius: 6px;
 }
 .page .bubble .welcome .triangle{
     border: 10px solid transparent;

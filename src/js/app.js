@@ -17,7 +17,7 @@ let app = new Vue({
         },
         currentUser:{
             objectId:undefined,
-            email:''
+            email:'',
         },
         previewResume:{
             url: '',
@@ -128,9 +128,6 @@ let app = new Vue({
             }
 
         },
-        shareVisibleClose(){
-            shareVisible=false
-        },
         onEdit(key,value){
             let regex = /\[(\d+)\]/g
             key = key.replace(regex,(match,number) => `.${number}`)
@@ -161,6 +158,7 @@ let app = new Vue({
             return this.currentUser.objectId
         },
         onlogin(user){
+            console.log(user)
             this.currentUser.objectId = user.objectId
             this.currentUser.email = user.email
 
@@ -183,6 +181,7 @@ let app = new Vue({
                     var user = AV.Object.createWithoutData('User',objectId);
                     user.set('resume', this.resume);
                     user.save()
+                    window.location.reload()
                 } else {
                     imgdom.src = './img/resume.gif'
                 }

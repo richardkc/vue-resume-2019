@@ -17,12 +17,15 @@
     width: 90%;
     height: 4em;
     resize: none;
+    text-align: center;
 }
 .share h3{
     margin-bottom: 20px;
 }
 .share button{
-    width: 1.5em;
+    background: white;
+    font-size: 16px;
+    width: 2em;
     position: absolute;
     top: 3px;
     right: 3px;
